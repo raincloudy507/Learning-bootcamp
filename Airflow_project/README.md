@@ -72,7 +72,7 @@ Ensure the following tools are installed on your machine:
 ### Clone the Repository
 
 ```
-git clone https://github.com/raincloudy507/Projects.git
+git clone https://github.com/raincloudy507/Learning-bootcamp.git
 cd Airflow_project
 ```
 
