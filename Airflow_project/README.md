@@ -3,10 +3,7 @@
 2. [Features](#features)
 3. [Tech Stack](#tech-stack)
 4. [Setup](#setup)
-	- [Docker Setup](#docker-setup)
 5. [DAG (Directed Acyclic Graph) Flow](#dag-flow)
-6. [Screenshots](#screenshots)
-7. [Future Enhancements](#future-enhancements)
 
 # Project Architecture
 ## Architecture Overview
@@ -124,3 +121,66 @@ docker compose down
 docker compose down -v
 docker compose up --build
 ```
+
+# DAG (Directed Acyclic Graph) Flow
+## DAG Flow
+
+The `weather_pipeline` DAG orchestrates an end-to-end ETL workflow that ingests weather forecast data from an external API, processes the dataset, and stores the transformed output into a PostgreSQL database.
+
+The workflow is designed using Apache Airflow task dependencies to simulate a production-style data engineering pipeline.
+
+### DAG Workflow
+
+```text
+extract_weather
+       |
+       v
+transform_weather
+       |
+       v
+load_weather
+```
+
+## Task Breakdown
+1. Extract Weather Data (Task : ```extract_weather```)
+- Connects to the Open-Meteo public weather API
+- Retrieves daily weather forecast data
+- Converts the API response into a structured Pandas DataFrame
+- Stores the raw dataset as a CSV file for downstream processing
+
+Output:
+data/raw_weather.csv
+
+2. Transform Weather Data (Task : ```transform_weather```)
+- Reads the raw weather dataset
+- Standardizes column names
+- Performs basic data cleansing and transformation
+- Converts temperature data from Celsius to Fahrenheit
+- Creates a processed dataset ready for storage
+
+Output:
+data/processed_weather.csv
+
+3. Load Weather Data (Task : ```load_weather```)
+- Reads the processed dataset
+- Establishes a connection to PostgreSQL using SQLAlchemy
+- Loads transformed records into the weather_data database table
+- Supports append-based incremental loading
+
+Target Table:
+weather_data
+
+## DAG features
+- Capability to schedule Daily execution using Airflow scheduling
+- Modular Python-based task implementation
+- Retry and failure handling support
+- Sequential task dependency management
+- Dockerized execution environment
+- Persistent storage using PostgreSQL
+
+## Operational Flow
+1. Airflow Scheduler triggers the DAG
+2. The Extract task pulls weather data from the API
+3. The Transform task processes and enriches the dataset
+4. The Load task stores the final dataset into PostgreSQL
+5. Airflow logs and monitors execution through the Web UI
