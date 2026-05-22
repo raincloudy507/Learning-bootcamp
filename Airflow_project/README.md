@@ -1,21 +1,186 @@
 # Table of Contents
-1. [Architecture Diagram](#architecture-diagram)
+1. [Project Architecture](#Project-Architecture)
 2. [Features](#features)
 3. [Tech Stack](#tech-stack)
 4. [Setup](#setup)
-	- [Docker Setup](#docker-setup)
 5. [DAG (Directed Acyclic Graph) Flow](#dag-flow)
-6. [Screenshots](#screenshots)
-7. [Future Enhancements](#future-enhancements)
 
-# Architecture Diagram
+# Project Architecture
+## Architecture Overview
+Simulates a prod-style ETL platform using : 
+- Apache Airflow for orchestration
+- Docker and Docker Compose for containerized deployment
+- PostgreSQL for metadata and pipeline storage
+- Python + Pandas for data processing
+- Open-Meteo public API for external data ingestion
+
+The pipeline performs : 
+1. API extraction
+2. Data transformation
+3. Database loading
+4. Scheduled orchestration via Airflow DAGs
+
+## Architecture Diagrams
+### Airflow Architecture
+![alt text](/Airflow_project/images/Airflow_arch.png)
+
+### Docker Container Architecture
+![alt text](/Airflow_project/images/Airflow_DCA.png)
+
 # Features
+
+- End-to-end ETL pipeline orchestration using Apache Airflow
+- Dockerized multi-container architecture using Docker Compose
+- Automated weather data ingestion from the Open-Meteo public API
+- Data transformation and cleansing using Pandas
+- PostgreSQL integration for persistent structured storage
+- Modular Airflow DAG design with reusable Python scripts
+- Production-style workflow scheduling and task orchestration
+- Retry handling and task dependency management
+- Local development and execution without requiring cloud infrastructure
+- GitHub Codespaces compatible setup for cloud-based development
+- Persistent logging and mounted Docker volumes
+- Airflow Web UI for workflow monitoring and execution tracking
+- Easy-to-extend architecture for additional data sources and pipelines
+
 # Tech Stack
 
-## Setup
-### Local Setup
-### Docker Setup
 
-# DAG Flow
-# Screenshots
-# Future Enhancements
+| Category              | Technology |
+|----------------------|------------|
+| Workflow Orchestration | Apache Airflow |
+| Containerization      | Docker & Docker Compose |
+| Programming Language  | Python 3.12 |
+| Database              | PostgreSQL |
+| Data Processing       | Pandas |
+| API Integration       | Requests |
+| ORM / Database Access | SQLAlchemy |
+| Development Platform  | GitHub Codespaces |
+| Version Control       | Git & GitHub |
+| Operating Environment | Linux Containers |
+
+## Setup
+
+### Prerequisites
+
+Ensure the following tools are installed on your machine:
+
+- Docker Desktop
+- Docker Compose
+- Git
+
+### Clone the Repository
+
+```
+git clone https://github.com/raincloudy507/Projects.git
+cd Airflow_project
+```
+
+### Create Required Folders
+```
+mkdir -p dags logs plugins data scripts
+```
+
+### Configure Environment Variables
+Create a .env file in the project root with the below content :
+```
+AIRFLOW_UID=50000
+```
+
+### Start the application
+Build and start all the containers :
+```
+docker compose up --build
+```
+
+### Access Airflow UI
+Open the Airflow web interface:
+```
+http://localhost:8080
+```
+
+### Default Login Credentials
+```
+Username: admin
+Password: admin
+```
+
+### Trigger the DAG
+1. Open the Airflow UI
+2. Enable the weather_pipeline DAG
+3. Trigger the DAG manually
+4. Monitor task execution in Graph View
+
+### Stop the Application
+```
+docker compose down
+```
+
+### Rebuild the containers (optional)
+```
+docker compose down -v
+docker compose up --build
+```
+
+# DAG (Directed Acyclic Graph) Flow
+## DAG Flow
+
+The `weather_pipeline` DAG orchestrates an end-to-end ETL workflow that ingests weather forecast data from an external API, processes the dataset, and stores the transformed output into a PostgreSQL database.
+
+The workflow is designed using Apache Airflow task dependencies to simulate a production-style data engineering pipeline.
+
+### DAG Workflow
+
+```text
+extract_weather
+       |
+       v
+transform_weather
+       |
+       v
+load_weather
+```
+
+## Task Breakdown
+1. Extract Weather Data (Task : ```extract_weather```)
+- Connects to the Open-Meteo public weather API
+- Retrieves daily weather forecast data
+- Converts the API response into a structured Pandas DataFrame
+- Stores the raw dataset as a CSV file for downstream processing
+
+Output:
+data/raw_weather.csv
+
+2. Transform Weather Data (Task : ```transform_weather```)
+- Reads the raw weather dataset
+- Standardizes column names
+- Performs basic data cleansing and transformation
+- Converts temperature data from Celsius to Fahrenheit
+- Creates a processed dataset ready for storage
+
+Output:
+data/processed_weather.csv
+
+3. Load Weather Data (Task : ```load_weather```)
+- Reads the processed dataset
+- Establishes a connection to PostgreSQL using SQLAlchemy
+- Loads transformed records into the weather_data database table
+- Supports append-based incremental loading
+
+Target Table:
+weather_data
+
+## DAG features
+- Capability to schedule Daily execution using Airflow scheduling
+- Modular Python-based task implementation
+- Retry and failure handling support
+- Sequential task dependency management
+- Dockerized execution environment
+- Persistent storage using PostgreSQL
+
+## Operational Flow
+1. Airflow Scheduler triggers the DAG
+2. The Extract task pulls weather data from the API
+3. The Transform task processes and enriches the dataset
+4. The Load task stores the final dataset into PostgreSQL
+5. Airflow logs and monitors execution through the Web UI
