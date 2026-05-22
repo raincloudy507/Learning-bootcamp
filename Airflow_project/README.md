@@ -48,7 +48,7 @@ The pipeline performs :
 
 | Category              | Technology |
 |----------------------|------------|
-| Workflow Orchestration | [Apache Airflow|https://airflow.apache.org/docs/apache-airflow/stable/index.html] |
+| Workflow Orchestration | [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/index.html) |
 | Containerization      | [Docker|https://docs.docker.com/desktop/] & [Docker Compose|https://docs.docker.com/compose/] |
 | Programming Language  | [Python 3.12 |https://docs.python.org/3.12/] |
 | Database              | [PostgreSQL|https://www.postgresql.org/docs/] |
