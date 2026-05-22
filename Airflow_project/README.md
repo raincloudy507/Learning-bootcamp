@@ -9,11 +9,16 @@
 7. [Future Enhancements](#future-enhancements)
 
 # Architecture Diagram
+## Airflow Architecture
+![alt text](/Airflow_project/images/Airflow_arch.png)
+
+## Docker Container Architecture
+![alt text](/Airflow_project/images/Airflow_DCA.png)
+
 # Features
 # Tech Stack
 
 ## Setup
-### Local Setup
 ### Docker Setup
 
 # DAG Flow
