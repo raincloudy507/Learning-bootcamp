@@ -13,8 +13,10 @@ services:
 
   airflow-init:
     build: .
+    user: "${AIRFLOW_UID}:0"
     depends_on:
       - postgres
+    platform: linux/amd64
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -31,16 +33,19 @@ services:
       "
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts      
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data
 
   airflow-webserver:
     build: .
+    user: "${AIRFLOW_UID}:0"
     restart: always
     depends_on:
       - postgres
       - airflow-init
+    platform: linux/amd64
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -49,21 +54,25 @@ services:
     command: webserver
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data
 
   airflow-scheduler:
     build: .
+    user: "${AIRFLOW_UID}:0"
     restart: always
     depends_on:
       - postgres
+    platform: linux/amd64
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     command: scheduler
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts      
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data

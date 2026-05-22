@@ -1,13 +1,21 @@
+import sys
+sys.path.append('/opt/airflow')
+
+
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
-from Airflow_project.scripts.extract import extract_weather
-from Airflow_project.scripts.transform import transform_weather
-from Airflow_project.scripts.load import load_weather
+
+from scripts.extract import extract_weather
+from scripts.load import load_weather
+from scripts.transform import transform_weather
+
+
+
 
 default_args = {
-    "owner": "Apache Airflow",
+    "owner": "Partha",
     "retries": 2,
     "retry_delay": timedelta(minutes=2)
 }
