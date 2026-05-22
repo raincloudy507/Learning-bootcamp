@@ -49,15 +49,15 @@ The pipeline performs :
 | Category              | Technology |
 |----------------------|------------|
 | Workflow Orchestration | [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/index.html) |
-| Containerization      | [Docker|https://docs.docker.com/desktop/] & [Docker Compose|https://docs.docker.com/compose/] |
-| Programming Language  | [Python 3.12 |https://docs.python.org/3.12/] |
-| Database              | [PostgreSQL|https://www.postgresql.org/docs/] |
-| Data Processing       | [Pandas|https://pandas.pydata.org/docs/user_guide/index.html] |
-| API Integration       | [Requests|https://pypi.org/project/requests/] |
-| ORM / Database Access | [SQLAlchemy|https://docs.sqlalchemy.org/en/20/] |
-| Development Platform  | [GitHub Codespaces|https://github.com/features/codespaces] |
-| Version Control       | [Git|https://git-scm.com/docs] & [GitHub|https://docs.github.com/en] |
-| Operating Environment | [Linux Containers|https://linuxcontainers.org/] |
+| Containerization      | [Docker](https://docs.docker.com/desktop/) & [Docker Compose](https://docs.docker.com/compose/) |
+| Programming Language  | [Python 3.12](https://docs.python.org/3.12/) |
+| Database              | [PostgreSQL](https://www.postgresql.org/docs/) |
+| Data Processing       | [Pandas](https://pandas.pydata.org/docs/user_guide/index.html) |
+| API Integration       | [Requests](https://pypi.org/project/requests/) |
+| ORM / Database Access | [SQLAlchemy](https://docs.sqlalchemy.org/en/20/) |
+| Development Platform  | [GitHub Codespaces](https://github.com/features/codespaces) |
+| Version Control       | [Git](https://git-scm.com/docs) & [GitHub](https://docs.github.com/en) |
+| Operating Environment | [Linux Containers](https://linuxcontainers.org/) |
 
 ## Setup
 
